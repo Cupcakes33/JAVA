@@ -5,6 +5,9 @@
 
 ## Section 8
 1. [자바 메모리 구조와 Static](src/Section8/8-1.md)
+
+## Section 8
+1. [자바 메모리 구조와 Static](src/Section8/8-1.md)
 2. [스택과 큐 자료구조](src/Section8/8-2.md)
 3. [스택 영역과 힙 영역](src/Section8/8-3.md)
 4. [Static 변수와 메서드](src/Section8/8-6.md)
