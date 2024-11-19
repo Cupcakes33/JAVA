@@ -1,5 +1,6 @@
 import os
 import re
+import time
 from collections import defaultdict
 
 def find_md_files(src_dir):
@@ -25,6 +26,10 @@ def extract_section_and_headers(file_path):
 
     return section_num, headers, file_name
 
+def get_file_creation_date(file_path):
+    timestamp = os.path.getctime(file_path)
+    return time.strftime('%y/%m/%d', time.localtime(timestamp))
+
 def generate_toc():
     sections = defaultdict(list)
     md_files = find_md_files('src')
@@ -41,8 +46,9 @@ def generate_toc():
 
     for section_num in sorted(sections.keys()):
         toc.append(f"## Section {section_num}\n")
-        for i, (header, file_name) in enumerate(sorted(set(sections[section_num])), 1):
+        for i, (header, file_name) in enumerate(sorted(set(sections[section_num]), reverse=True), 1):
             link_path = f"src/Section{section_num}/{file_name}"
+            date = get_file_creation_date(os.path.join('src', f'Section{section_num}', file_name))
             toc.append(f"{i}. [{header}]({link_path})\n")
         toc.append("\n")
 
