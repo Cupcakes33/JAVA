@@ -49,7 +49,7 @@ def generate_toc():
         for i, (header, file_name) in enumerate(sorted(set(sections[section_num]), reverse=True), 1):
             link_path = f"src/Section{section_num}/{file_name}"
             date = get_file_creation_date(os.path.join('src', f'Section{section_num}', file_name))
-            toc.append(f"{i}. [{header}]({link_path})\n")
+            toc.append(f"{i}. [{header}]({link_path}) - {date}\n")
         toc.append("\n")
 
     try:
