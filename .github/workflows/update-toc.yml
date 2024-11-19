@@ -1,0 +1,32 @@
+name: Update README TOC
+
+on:
+  push:
+    paths:
+      - 'src/**/*.md'
+    branches:
+      - main
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+S
+      - name: Generate TOC
+        run: |
+          python .github/scripts/generate_toc.py
+
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add README.md
+          git diff --quiet && git diff --staged --quiet || git commit -m "docs: update README TOC"
+          git push
