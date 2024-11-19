@@ -27,7 +27,6 @@ def extract_section_and_headers(file_path):
 
 def generate_toc():
     sections = defaultdict(list)
-
     md_files = find_md_files('src')
 
     for file in md_files:
@@ -36,10 +35,9 @@ def generate_toc():
             for header in headers:
                 sections[int(section_num)].append((header, file_name))
 
-    # Generate TOC
-    toc = ["# JAVA 학습 기록 📚\n\n"]  # 원하는 제목
-    toc.append("자바 기초부터 심화까지의 학습 내용을 정리합니다.\n")  # 원하는 설명
-    toc.append("김영한 선생님의 강의를 듣고 코드를 작성하고 내용을 요약합니다.\n\n")  # 원하는 설명
+    toc = ["# JAVA 학습 기록 📚\n\n"]
+    toc.append("자바 기초부터 심화까지의 학습 내용을 정리합니다.\n")
+    toc.append("김영한 선생님의 강의를 듣고 코드를 작성하고 내용을 요약합니다.\n\n")
 
     for section_num in sorted(sections.keys()):
         toc.append(f"## Section {section_num}\n")
@@ -48,24 +46,22 @@ def generate_toc():
             toc.append(f"{i}. [{header}]({link_path})\n")
         toc.append("\n")
 
-    # README.md 파일이 없으면 새로 생성
-   try:
-       with open('README.md', 'r', encoding='utf-8') as f:
-           content = f.read()
+    try:
+        with open('README.md', 'r', encoding='utf-8') as f:
+            content = f.read()
 
-       toc_content = ''.join(toc)
-       if '# JAVA 학습 기록 📚' in content:
-           content = re.sub(
-               r'# JAVA 학습 기록 📚.*?(?=##\s+[^#]|\Z)',
-               toc_content,
-               content,
-               flags=re.DOTALL
-           )
-       else:
-           content = toc_content + "\n" + content
-
-   except FileNotFoundError:
-       content = ''.join(toc)  # 파일이 없으면 새로 생성
+        toc_content = ''.join(toc)
+        if '# JAVA 학습 기록 📚' in content:
+            content = re.sub(
+                r'# JAVA 학습 기록 📚.*?(?=##\s+[^#]|\Z)',
+                toc_content,
+                content,
+                flags=re.DOTALL
+            )
+        else:
+            content = toc_content + "\n" + content
+    except FileNotFoundError:
+        content = ''.join(toc)
 
     with open('README.md', 'w', encoding='utf-8') as f:
         f.write(content)
