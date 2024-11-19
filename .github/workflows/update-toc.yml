@@ -3,14 +3,15 @@ name: Update README TOC
 on:
   push:
     paths:
-      - 'src/**/*.md'
+      - 'src/**/**.md'
     branches:
-      - main
+      - master
 
 jobs:
   update-readme:
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v3
 
