@@ -48,19 +48,24 @@ def generate_toc():
             toc.append(f"{i}. [{header}]({link_path})\n")
         toc.append("\n")
 
-    with open('README.md', 'r', encoding='utf-8') as f:
-        content = f.read()
+    # README.md 파일이 없으면 새로 생성
+   try:
+       with open('README.md', 'r', encoding='utf-8') as f:
+           content = f.read()
 
-    toc_content = ''.join(toc)
-    if '# JAVA 학습 기록 📚' in content:
-        content = re.sub(
-            r'# JAVA 학습 기록 📚.*?(?=##\s+[^#]|\Z)',
-            toc_content,
-            content,
-            flags=re.DOTALL
-        )
-    else:
-        content = toc_content + "\n" + content
+       toc_content = ''.join(toc)
+       if '# JAVA 학습 기록 📚' in content:
+           content = re.sub(
+               r'# JAVA 학습 기록 📚.*?(?=##\s+[^#]|\Z)',
+               toc_content,
+               content,
+               flags=re.DOTALL
+           )
+       else:
+           content = toc_content + "\n" + content
+
+   except FileNotFoundError:
+       content = ''.join(toc)  # 파일이 없으면 새로 생성
 
     with open('README.md', 'w', encoding='utf-8') as f:
         f.write(content)
